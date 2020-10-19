@@ -1,15 +1,36 @@
 import React from 'react';
 
-const Store = React.createContext('');
+interface IState {
+  episodes: [],
+  favorites: []
+}
 
-const initialState = {};
+const initialState:IState = {
+  episodes: [],
+  favorites: [],
+};
 
-function reducer() {
+interface IAction {
+  type: string;
+  payload: any;
+}
+const Store = React.createContext<IState | any>(initialState);
 
+function reducer(state:IState, action:IAction):IState {
+  switch (action.type) {
+    case 'FETCH_DATA':
+      return { ...state, episodes: action.payload };
+    default:
+      return state;
+  }
 }
 
 export function StoreProvider(props: any) {
-  return <Store.Provider value="test">{props.children}</Store.Provider>;
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+
+  const { children } = props;
+
+  return <Store.Provider value={{ state, dispatch }}>{children}</Store.Provider>;
 }
 
 export default Store;
