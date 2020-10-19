@@ -1,8 +1,9 @@
 import React from 'react';
+import { Episode } from './App';
 
 interface IState {
-  episodes: [],
-  favorites: []
+  episodes: Episode[],
+  favorites: Episode[]
 }
 
 const initialState:IState = {
@@ -10,16 +11,22 @@ const initialState:IState = {
   favorites: [],
 };
 
-interface IAction {
+export interface IAction {
   type: string;
   payload: any;
 }
 const Store = React.createContext<IState | any>(initialState);
 
 function reducer(state:IState, action:IAction):IState {
+  console.log(action.payload, '<<<');
+
   switch (action.type) {
     case 'FETCH_DATA':
       return { ...state, episodes: action.payload };
+    case 'FAV_EPISODE':
+      return { ...state, favorites: [...state.favorites, action.payload] };
+    case 'REMOVE_EPISODE':
+      return { ...state, favorites: action.payload };
     default:
       return state;
   }

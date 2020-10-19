@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from 'react';
 import './App.css';
-import Store from './Store';
+import Store, { IAction } from './Store';
 
-type Episode = {
+export type Episode = {
   id: number;
   name: string;
   image: {
@@ -32,6 +32,27 @@ const App:React.FC = () => {
     fetchDataAction();
   }, []);
 
+  const handleClick = (episode:Episode):IAction => {
+    const episodeInFav: boolean = state.favorites.includes(episode);
+
+    let dispatchObject = {
+      type: 'FAV_EPISODE',
+      payload: episode,
+    };
+
+    if (episodeInFav) {
+      const favWithoutEpisode = state.favorites.filter((fav:Episode) => fav.id !== episode.id);
+      dispatchObject = {
+        type: 'REMOVE_EPISODE',
+        payload: favWithoutEpisode,
+      };
+    }
+
+    return dispatch(dispatchObject);
+  };
+
+  console.log(state);
+
   return (
     <>
       <h1 className="App">Rick And Morty</h1>
@@ -48,6 +69,12 @@ const App:React.FC = () => {
 
             </section>
             <div dangerouslySetInnerHTML={{ __html: episode.summary }} />
+            <div>
+              <button type="button" onClick={() => handleClick(episode)}>
+                <span>{state.favorites.find((fav: Episode) => fav.id === episode.id) ? 'Unfav' : 'Fav'}</span>
+              </button>
+
+            </div>
           </article>
         ))}
       </section>
