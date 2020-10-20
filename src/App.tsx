@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react';
-import './App.css';
 import styled from 'styled-components';
 import Store, { IAction } from './Store';
 
@@ -17,10 +16,14 @@ export type Episode = {
 const EpisodeComp = styled.article`
   background: #efefef;
   display: inline-block;
-  width: 300px;
+  width: 250px;
   margin: 0 1rem 1rem 0;
-  height: 300px;
   padding: 1rem;
+
+  h2{
+    font-size: 20px;
+    margin: 0;
+  }
 `;
 
 const App:React.FC = () => {
