@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import './App.css';
+import styled from 'styled-components';
 import Store, { IAction } from './Store';
 
 export type Episode = {
@@ -12,6 +13,15 @@ export type Episode = {
   summary: string;
   url: string;
 }
+
+const EpisodeComp = styled.article`
+  background: #efefef;
+  display: inline-block;
+  width: 300px;
+  margin: 0 1rem 1rem 0;
+  height: 300px;
+  padding: 1rem;
+`;
 
 const App:React.FC = () => {
   const { state, dispatch } = useContext(Store);
@@ -55,27 +65,36 @@ const App:React.FC = () => {
 
   return (
     <>
-      <h1 className="App">Rick And Morty</h1>
-      <p>Pick your favourite episode</p>
+      <div>
+        <h1 className="App">Rick And Morty</h1>
+        <p>Pick your favourite episode</p>
+      </div>
+      <div>
+        Favorite(s) :
+        {' '}
+        {state.favorites.length}
+      </div>
       <section>
         {state.episodes.map((episode:Episode) => (
-          <article key={episode.id}>
-            <h2>{episode.name}</h2>
-            <img src={episode.image.medium} alt={`Rick & Morty ${episode.name}`} />
-            <section>
-              Season:
-              {' '}
-              <cite>{episode.season}</cite>
+          <EpisodeComp>
+            <article key={episode.id}>
+              <h2>{episode.name}</h2>
+              <img src={episode.image.medium} alt={`Rick & Morty ${episode.name}`} />
+              <section>
+                Season:
+                {' '}
+                <cite>{episode.season}</cite>
 
-            </section>
-            <div dangerouslySetInnerHTML={{ __html: episode.summary }} />
-            <div>
-              <button type="button" onClick={() => handleClick(episode)}>
-                <span>{state.favorites.find((fav: Episode) => fav.id === episode.id) ? 'Unfav' : 'Fav'}</span>
-              </button>
+              </section>
+              {/* <div dangerouslySetInnerHTML={{ __html: episode.summary }} /> */}
+              <div>
+                <button type="button" onClick={() => handleClick(episode)}>
+                  <span>{state.favorites.find((fav: Episode) => fav.id === episode.id) ? 'Unfav' : 'Fav'}</span>
+                </button>
 
-            </div>
-          </article>
+              </div>
+            </article>
+          </EpisodeComp>
         ))}
       </section>
     </>
