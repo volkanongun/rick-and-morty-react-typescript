@@ -25,7 +25,8 @@
         }
     },
     "rules": {
-        "no-use-before-define": ["warn", { "functions": true, "classes": false, "variables": true }],
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-use-before-define": ["error"],
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx"] }],
         "import/extensions": "off"
     }
