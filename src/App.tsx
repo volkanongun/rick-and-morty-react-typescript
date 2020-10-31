@@ -11,7 +11,7 @@ export type Episode = {
   season: string;
   summary: string;
   url: string;
-}
+};
 
 const EpisodeComp = styled.article`
   background: #efefef;
@@ -20,13 +20,13 @@ const EpisodeComp = styled.article`
   margin: 0 1rem 1rem 0;
   padding: 1rem;
 
-  h2{
+  h2 {
     font-size: 20px;
     margin: 0;
   }
 `;
 
-const App:React.FC = () => {
+const App: React.FC = () => {
   const { state, dispatch } = useContext(Store);
 
   const fetchDataAction = async () => {
@@ -45,7 +45,7 @@ const App:React.FC = () => {
     fetchDataAction();
   }, []);
 
-  const handleClick = (episode:Episode):IAction => {
+  const handleClick = (episode: Episode): IAction => {
     const episodeInFav: boolean = state.favorites.includes(episode);
 
     let dispatchObject = {
@@ -54,7 +54,9 @@ const App:React.FC = () => {
     };
 
     if (episodeInFav) {
-      const favWithoutEpisode = state.favorites.filter((fav:Episode) => fav.id !== episode.id);
+      const favWithoutEpisode = state.favorites.filter(
+        (fav: Episode) => fav.id !== episode.id,
+      );
       dispatchObject = {
         type: 'REMOVE_EPISODE',
         payload: favWithoutEpisode,
@@ -78,23 +80,30 @@ const App:React.FC = () => {
         {state.favorites.length}
       </div>
       <section>
-        {state.episodes.map((episode:Episode) => (
+        {state.episodes.map((episode: Episode) => (
           <EpisodeComp>
             <article key={episode.id}>
               <h2>{episode.name}</h2>
-              <img src={episode.image.medium} alt={`Rick & Morty ${episode.name}`} />
+              <img
+                src={episode.image.medium}
+                alt={`Rick & Morty ${episode.name}`}
+              />
               <section>
                 Season:
                 {' '}
                 <cite>{episode.season}</cite>
-
               </section>
               {/* <div dangerouslySetInnerHTML={{ __html: episode.summary }} /> */}
               <div>
                 <button type="button" onClick={() => handleClick(episode)}>
-                  <span>{state.favorites.find((fav: Episode) => fav.id === episode.id) ? 'Unfav' : 'Fav'}</span>
+                  <span>
+                    {state.favorites.find(
+                      (fav: Episode) => fav.id === episode.id,
+                    )
+                      ? 'Unfav'
+                      : 'Fav'}
+                  </span>
                 </button>
-
               </div>
             </article>
           </EpisodeComp>
